@@ -3,6 +3,9 @@
 import sys
 from typing import Dict, List
 
+if(len(sys.argv) < 2):
+    print("Usage: ./lga <cfg file>")
+    exit(1)
 with open(sys.argv[1]) as file:
     io = file.readlines()
 grammar: Dict[str, List[List[str]]] = {}
