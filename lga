@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+
+import sys
+from typing import Dict, List
+
+with open(sys.argv[1]) as file:
+    io = file.readlines()
+grammar: Dict[str, List[List[str]]] = {}
+nonterm = set()
+term = set()
+prev_nonterm = io[0].split()[0]
+start_symbol = ""
+for line in io:
+    data = line.split()
+    if "$" in line:
+        start_symbol = data[0]
+    if "->" in line:
+        prev_nonterm = data[0]
+        grammar[prev_nonterm] = []
+    l = []
+    data.pop(0)
+    for symbol in data:
+        if symbol != "->" and symbol != "$" and symbol != "|":
+            if(symbol.isupper() and symbol != "LAMBDA"):
+                nonterm.add(symbol)
+            elif(symbol.islower() and symbol != "lambda"):
+                term.add(symbol)
+            l.append(symbol)
+    grammar[prev_nonterm].append(l)
+i = 1
+print("Grammar Rules")
+for LHS in grammar:
+    nonterm.add(LHS)
+    for rules in grammar[LHS]:
+        print(i, LHS, "->", " ".join(rules))
+        i += 1
+print("\nTerminals: ", sorted(term))
+print("Nonterminals: ", sorted(nonterm))
+print("\nGrammar Start Symbol or Goal: ", start_symbol)
