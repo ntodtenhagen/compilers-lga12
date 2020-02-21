@@ -17,6 +17,7 @@ for line in io:
     data = line.split()
     if "$" in line:
         start_symbol = data[0]
+        nonterm.add(start_symbol)
     if "->" in line:
         prev_nonterm = data[0]
         grammar[prev_nonterm] = []
@@ -33,7 +34,6 @@ for line in io:
 i = 1
 print("Grammar Rules")
 for LHS in grammar:
-    nonterm.add(LHS)
     for rules in grammar[LHS]:
         print(i, LHS, "->", " ".join(rules))
         i += 1
